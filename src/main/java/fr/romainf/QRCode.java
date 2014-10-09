@@ -59,17 +59,24 @@ public class QRCode {
 
         try {
             CommandLine cmd = parser.parse(options, args);
+            args = cmd.getArgs();
 
             int l = args.length;
-            if (l <= 0 || cmd.hasOption("help")) {
+            if (l != 1) {
+                System.out.println("Can only encode one datum at a time (" + l + " given)");
                 printUsage(options);
-                return;
+                System.exit(1);
+            }
+            if (cmd.hasOption("help")) {
+                printUsage(options);
+                System.exit(0);
             }
 
             String output = cmd.getOptionValue("o", DEFAULT_OUTPUT_FILE);
             int width = Integer.parseInt(cmd.getOptionValue("w", DEFAULT_WIDTH));
             int height = Integer.parseInt(cmd.getOptionValue("h", DEFAULT_HEIGHT));
 
+            System.out.println(cmd.getArgs().length);
             writeQRCode(args[l - 1], width, height, output);
 
         } catch (ParseException e) {
@@ -107,6 +114,9 @@ public class QRCode {
                 hints);
 
         File file = new File(output);
+        if (file.isDirectory()) {
+            file = new File(output + File.separator + DEFAULT_OUTPUT_FILE);
+        }
         if (!file.createNewFile() && !file.canWrite()) {
             throw new IOException("Cannot write file " + file);
         }
@@ -147,7 +157,7 @@ public class QRCode {
      */
     private static void printUsage(Options options) {
         HelpFormatter helpFormatter = new HelpFormatter();
-        helpFormatter.printHelp("qrcode [OPTIONS] DATA", options);
+        helpFormatter.printHelp("qrcode [OPTIONS] DATUM", options);
     }
 
     /**
