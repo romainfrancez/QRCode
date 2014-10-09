@@ -76,7 +76,6 @@ public class QRCode {
             int width = Integer.parseInt(cmd.getOptionValue("w", DEFAULT_WIDTH));
             int height = Integer.parseInt(cmd.getOptionValue("h", DEFAULT_HEIGHT));
 
-            System.out.println(cmd.getArgs().length);
             writeQRCode(args[l - 1], width, height, output);
 
         } catch (ParseException e) {
