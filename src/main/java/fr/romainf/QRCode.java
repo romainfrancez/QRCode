@@ -75,11 +75,15 @@ public class QRCode {
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             printUsage(options);
+            System.exit(1);
         } catch (WriterException e) {
             System.out.println("Could not create QRCode from data (" + e.getMessage() + ")");
+            System.exit(2);
         } catch (IOException e) {
             System.out.println("Could not save QRCode to file (" + e.getMessage() + ")");
+            System.exit(4);
         }
+        System.exit(0);
     }
 
     /**
@@ -103,7 +107,7 @@ public class QRCode {
                 hints);
 
         File file = new File(output);
-        if (!file.canWrite()) {
+        if (!file.createNewFile() && !file.canWrite()) {
             throw new IOException("Cannot write file " + file);
         }
         ImageIO.write(renderImage(bitMatrix), DEFAULT_IMAGE_FORMAT, file);
