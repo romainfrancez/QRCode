@@ -8,6 +8,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/xmlgraphics/batik-awt-util/1.7/batik-awt-util-1.7-sources.jar!/" />
+      <root url="file://$USER_HOME$/Downloads/batik-1_7/sources" />
     </SOURCES>
   </library>
 </component>

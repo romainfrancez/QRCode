@@ -36,9 +36,17 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -184,14 +192,17 @@ public class QRCode {
         int width = matrix.getWidth();
         int height = matrix.getHeight();
 
+        Area area = new Area();
         for (int x = 0; x < width; x += 1) {
             for (int y = 0; y < height; y += 1) {
                 if (matrix.get(x, y)) {
-                    svgGenerator.setPaint(pixelColour);
-                    svgGenerator.fill(new Rectangle(x, y, 1, 1));
+                    area.add(new Area(new Rectangle(x, y, 1, 1)));
                 }
             }
         }
+
+        svgGenerator.setPaint(pixelColour);
+        svgGenerator.fill(area);
         return svgGenerator;
     }
 }
